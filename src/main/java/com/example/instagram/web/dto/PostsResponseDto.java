@@ -11,12 +11,14 @@ public class PostsResponseDto {
   private String caption;
   private String likeCount;
   private LocalDateTime createdDate;
+  private LocalDateTime modifiedDate;
 
   public PostsResponseDto(Posts entity) {
     this.id = entity.getId();
     this.caption = entity.getCaption();
     this.likeCount = entity.getLikeCount();
-    this.createdDate = entity.getCreateDate();
+    this.createdDate = entity.getCreatedDate();
+    this.modifiedDate = entity.getModifiedDate();
   }
 
 }

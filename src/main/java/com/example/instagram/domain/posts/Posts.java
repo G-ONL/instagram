@@ -1,38 +1,36 @@
 package com.example.instagram.domain.posts;
 
+import com.example.instagram.common.BaseTimeEntity;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@NoArgsConstructor
+
 @Getter
+@NoArgsConstructor
 @Entity
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column
   private String caption;
 
-  @Column
   private String likeCount;
-
-  @CreatedDate
-  private LocalDateTime createDate;
 
   @Builder
   public Posts(String caption, String likeCount) {
     this.caption = caption;
     this.likeCount = likeCount;
   }
-
 }
