@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class PostsRequestDto {
+public class PostsSaveRequestDto {
 
   private String caption;
   private String likeCount;
 
   @Builder
-  public PostsRequestDto(String caption, String likeCount) {
+  public PostsSaveRequestDto(String caption, String likeCount) {
     this.caption = caption;
     this.likeCount = likeCount;
   }
