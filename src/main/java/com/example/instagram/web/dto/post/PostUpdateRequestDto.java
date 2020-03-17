@@ -1,4 +1,4 @@
-package com.example.instagram.web.dto;
+package com.example.instagram.web.dto.post;
 
 import com.example.instagram.domain.post.Post;
 import lombok.Builder;
@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class PostSaveRequestDto {
+public class PostUpdateRequestDto {
 
   private String caption;
   private String likeCount;
 
   @Builder
-  public PostSaveRequestDto(String caption, String likeCount) {
+  public PostUpdateRequestDto(String caption, String likeCount) {
     this.caption = caption;
     this.likeCount = likeCount;
   }
@@ -24,4 +24,5 @@ public class PostSaveRequestDto {
         .likeCount(likeCount)
         .build();
   }
+
 }

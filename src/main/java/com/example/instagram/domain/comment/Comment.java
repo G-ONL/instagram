@@ -27,7 +27,6 @@ public class Comment extends BaseTimeEntity {
 
   private String comment;
 
-  @JsonIgnore
   @ManyToOne
   @JoinColumn(name="post_id")
   private Post post;

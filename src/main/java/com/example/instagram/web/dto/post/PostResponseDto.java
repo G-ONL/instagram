@@ -1,4 +1,4 @@
-package com.example.instagram.web.dto;
+package com.example.instagram.web.dto.post;
 
 import com.example.instagram.domain.post.Post;
 import java.time.LocalDateTime;

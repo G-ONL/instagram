@@ -2,6 +2,8 @@ package com.example.instagram.domain.post;
 
 import com.example.instagram.common.BaseTimeEntity;
 import com.example.instagram.domain.comment.Comment;
+import com.example.instagram.domain.like.Likes;
+import com.example.instagram.domain.postPicture.PostPicture;
 import com.example.instagram.domain.user.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import lombok.Builder;
+import lombok.Cleanup;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,8 +39,14 @@ public class Post extends BaseTimeEntity {
   @OneToMany(mappedBy = "post")
   private List<Comment> comments = new ArrayList<>();
 
+  @OneToMany(mappedBy = "post")
+  private List<Likes> likes = new ArrayList<>();
+
+  @OneToMany(mappedBy = "post")
+  private List<PostPicture> postPictures = new ArrayList<>();
+
   @ManyToOne
-  @JoinColumn(name="user_id")
+  @JoinColumn(name = "user_id")
   private User user;
 
   @Builder
@@ -48,6 +58,18 @@ public class Post extends BaseTimeEntity {
   public void update(String caption, String likeCount) {
     this.caption = caption;
     this.likeCount = likeCount;
+  }
+
+  public void addToUser(User user) {
+    this.user = user;
+    if (!user.getPosts().contains(this)) {
+      user.getPosts().add(this);
+    }
+  }
+
+  @PrePersist
+  public void prePersist() {
+    this.likeCount = this.likeCount == null ? "0" : this.likeCount;
   }
 
 }

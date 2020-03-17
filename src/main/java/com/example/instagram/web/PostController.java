@@ -1,9 +1,12 @@
 package com.example.instagram.web;
 
 import com.example.instagram.service.PostService;
-import com.example.instagram.web.dto.PostSaveRequestDto;
-import com.example.instagram.web.dto.PostResponseDto;
-import com.example.instagram.web.dto.PostUpdateRequestDto;
+import com.example.instagram.web.dto.post.PostListResponseDto;
+import com.example.instagram.web.dto.post.PostSaveRequestDto;
+import com.example.instagram.web.dto.post.PostResponseDto;
+import com.example.instagram.web.dto.post.PostUpdateRequestDto;
+import com.example.instagram.web.dto.post.PostsListResponseDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,5 +42,11 @@ public class PostController {
     postService.delete(id);
     return id;
   }
+
+  @GetMapping("/posts")
+  public PostsListResponseDto find() {
+    return postService.findAll();
+  }
+
 
 }

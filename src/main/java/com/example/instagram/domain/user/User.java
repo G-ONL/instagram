@@ -1,5 +1,6 @@
 package com.example.instagram.domain.user;
 
+import com.example.instagram.common.BaseTimeEntity;
 import com.example.instagram.domain.comment.Comment;
 import com.example.instagram.domain.like.Likes;
 import com.example.instagram.domain.post.Post;
@@ -11,16 +12,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 @Entity
-public class User {
+public class User extends BaseTimeEntity {
 
   @Id
   @Column(name = "USER_ID")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  private String userName;
+
+  private String password;
+
+  private String location;
+
+  private String avatarUrl;
 
   @OneToMany(mappedBy = "user")
   private List<Comment> comments = new ArrayList<>();
