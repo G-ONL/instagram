@@ -1,26 +1,30 @@
-package com.example.instagram.domain.posts;
+package com.example.instagram.domain.post;
 
 import com.example.instagram.common.BaseTimeEntity;
-import java.time.LocalDateTime;
+import com.example.instagram.domain.comment.Comment;
+import com.example.instagram.domain.user.User;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Posts extends BaseTimeEntity {
+public class Post extends BaseTimeEntity {
 
   @Id
+  @Column(name = "POST_ID")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
@@ -28,8 +32,15 @@ public class Posts extends BaseTimeEntity {
 
   private String likeCount;
 
+  @OneToMany(mappedBy = "post")
+  private List<Comment> comments = new ArrayList<>();
+
+  @ManyToOne
+  @JoinColumn(name="user_id")
+  private User user;
+
   @Builder
-  public Posts(String caption, String likeCount) {
+  public Post(String caption, String likeCount) {
     this.caption = caption;
     this.likeCount = likeCount;
   }
@@ -38,4 +49,5 @@ public class Posts extends BaseTimeEntity {
     this.caption = caption;
     this.likeCount = likeCount;
   }
+
 }

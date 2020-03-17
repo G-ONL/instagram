@@ -1,25 +1,25 @@
 package com.example.instagram.web.dto;
 
-import com.example.instagram.domain.posts.Posts;
+import com.example.instagram.domain.post.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class PostsSaveRequestDto {
+public class PostSaveRequestDto {
 
   private String caption;
   private String likeCount;
 
   @Builder
-  public PostsSaveRequestDto(String caption, String likeCount) {
+  public PostSaveRequestDto(String caption, String likeCount) {
     this.caption = caption;
     this.likeCount = likeCount;
   }
 
-  public Posts toEntity() {
-    return Posts.builder()
+  public Post toEntity() {
+    return Post.builder()
         .caption(caption)
         .likeCount(likeCount)
         .build();

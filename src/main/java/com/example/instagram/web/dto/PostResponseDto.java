@@ -1,11 +1,11 @@
 package com.example.instagram.web.dto;
 
-import com.example.instagram.domain.posts.Posts;
+import com.example.instagram.domain.post.Post;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class PostsResponseDto {
+public class PostResponseDto {
 
   private Long id;
   private String caption;
@@ -13,7 +13,7 @@ public class PostsResponseDto {
   private LocalDateTime createdDate;
   private LocalDateTime modifiedDate;
 
-  public PostsResponseDto(Posts entity) {
+  public PostResponseDto(Post entity) {
     this.id = entity.getId();
     this.caption = entity.getCaption();
     this.likeCount = entity.getLikeCount();
