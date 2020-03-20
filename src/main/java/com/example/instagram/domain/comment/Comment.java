@@ -3,7 +3,6 @@ package com.example.instagram.domain.comment;
 import com.example.instagram.common.BaseTimeEntity;
 import com.example.instagram.domain.post.Post;
 import com.example.instagram.domain.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -34,7 +34,7 @@ public class PostPicture extends BaseTimeEntity {
     this.pictureUrl = pictureUrl;
   }
 
-  public void addToUser(Post post) {
+  public void addToPost(Post post) {
     this.post = post;
     if (!post.getPostPictures().contains(this)) {
       post.getPostPictures().add(this);

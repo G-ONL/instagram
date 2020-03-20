@@ -42,7 +42,7 @@ public class PostService {
     List<PostPictureRequestDto> postPictureRequestDtos = postSaveRequestDto.getPictureUrls();
     postPictureRequestDtos.forEach(postPictureRequestDto -> {
       PostPicture postPicture = postPictureRequestDto.toEntity();
-      postPicture.addToUser(post);
+      postPicture.addToPost(post);
       postPictureRepository.save(postPicture);
     });
   }

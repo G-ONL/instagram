@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,4 +42,11 @@ public class User extends BaseTimeEntity {
 
   @OneToMany(mappedBy = "user")
   private List<Likes> likes = new ArrayList<>();
+
+  @Builder
+  public User(String userName, String password) {
+    this.userName = userName;
+    this.password = password;
+  }
+
 }
