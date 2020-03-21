@@ -1,12 +1,12 @@
 package com.example.instagram.web;
 
+import com.example.instagram.common.CommonConstant;
 import com.example.instagram.service.PostService;
-import com.example.instagram.web.dto.post.PostListResponseDto;
 import com.example.instagram.web.dto.post.PostSaveRequestDto;
 import com.example.instagram.web.dto.post.PostResponseDto;
 import com.example.instagram.web.dto.post.PostUpdateRequestDto;
 import com.example.instagram.web.dto.post.PostsListResponseDto;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +33,9 @@ public class PostController {
   }
 
   @PostMapping("/posts")
-  public Long save(@RequestBody PostSaveRequestDto saveRequestDto) {
-    return postService.save(saveRequestDto);
+  public Long save(@RequestBody PostSaveRequestDto saveRequestDto, HttpServletRequest request) {
+    Long userId = Long.valueOf(String.valueOf(request.getAttribute(CommonConstant.USER_ID)));
+    return postService.save(saveRequestDto, userId);
   }
 
   @DeleteMapping("/posts/{id}")

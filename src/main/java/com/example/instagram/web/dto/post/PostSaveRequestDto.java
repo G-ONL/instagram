@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostSaveRequestDto {
 
-  private Long userId;
   private List<PostPictureRequestDto> pictureUrls;
   private String caption;
   private String likeCount;

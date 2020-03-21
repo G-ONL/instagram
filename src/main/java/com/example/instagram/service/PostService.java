@@ -27,8 +27,8 @@ public class PostService {
   private final PostPictureRepository postPictureRepository;
 
   @Transactional
-  public Long save(PostSaveRequestDto postSaveRequestDto) {
-    User user = userRepository.findById(postSaveRequestDto.getUserId()).orElseThrow(
+  public Long save(PostSaveRequestDto postSaveRequestDto, Long userId) {
+    User user = userRepository.findById(userId).orElseThrow(
         () -> new IllegalArgumentException("존재하지 않는 유저 입니다.")
     );
     Post post = postSaveRequestDto.toEntity();
@@ -39,9 +39,9 @@ public class PostService {
   }
 
   private void savePostPicture(PostSaveRequestDto postSaveRequestDto, Post post) {
-    List<PostPictureRequestDto> postPictureRequestDtos = postSaveRequestDto.getPictureUrls();
-    postPictureRequestDtos.forEach(postPictureRequestDto -> {
-      PostPicture postPicture = postPictureRequestDto.toEntity();
+    List<PostPictureRequestDto> postPictureRequestDto = postSaveRequestDto.getPictureUrls();
+    postPictureRequestDto.forEach(request -> {
+      PostPicture postPicture = request.toEntity();
       postPicture.addToPost(post);
       postPictureRepository.save(postPicture);
     });
