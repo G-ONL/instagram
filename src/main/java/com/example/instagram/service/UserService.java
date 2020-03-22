@@ -1,24 +1,26 @@
 package com.example.instagram.service;
 
-import com.example.instagram.common.PasswordEncoding;
 import com.example.instagram.domain.user.User;
 import com.example.instagram.domain.user.UserRepository;
 import com.example.instagram.web.dto.UserJoinRequestDto;
 import com.example.instagram.web.dto.UserLoginRequestDto;
-import com.example.instagram.web.dto.UserRegisterRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
-  private PasswordEncoding passwordEncoding = new PasswordEncoding();
+  private PasswordEncoder passwordEncoding = new BCryptPasswordEncoder();
+
   private final UserRepository userRepository;
   private final JwtService jwtService;
 
   public Long join(UserJoinRequestDto requestDto) {
-    return userRepository.save(requestDto.toEntity()).getId();
+    return userRepository.save(new UserJoinRequestDto(requestDto.getUserName(),
+        passwordEncoding.encode(requestDto.getPassword())).toEntity()).getId();
   }
 
   public String login(UserLoginRequestDto requestDto) {
@@ -31,4 +33,5 @@ public class UserService {
     }
     return jwtService.create(user.getId());
   }
+
 }

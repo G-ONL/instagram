@@ -6,6 +6,7 @@ import com.example.instagram.web.dto.UserLoginRequestDto;
 import com.example.instagram.web.dto.UserJoinRequestDto;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ public class UserController {
 
   @PostMapping("user/join")
   public ResponseEntity join(@RequestBody UserJoinRequestDto requestDto) {
-    return ResponseEntity.ok(userService.join(requestDto));
+    return ResponseEntity.status(HttpStatus.OK).body(userService.join(requestDto));
   }
 
   @PostMapping("user/login")
