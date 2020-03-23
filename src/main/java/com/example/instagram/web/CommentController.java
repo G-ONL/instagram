@@ -16,15 +16,13 @@ public class CommentController {
 
   private final CommentService commentService;
 
-  @PostMapping("/comment")
+  @PostMapping("/api/v1/comment")
   public Long save(@RequestBody CommentRequestDto requestDto) {
     return commentService.save(requestDto);
   }
 
-  @GetMapping("/comment/{id}")
+  @GetMapping("/api/v1/comment/{id}")
   public CommentResponseDto save(@PathVariable Long id) {
     return commentService.find(id);
   }
-
-
 }

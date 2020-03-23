@@ -13,18 +13,10 @@ public class PostSaveRequestDto {
 
   private List<PostPictureRequestDto> pictureUrls;
   private String caption;
-  private String likeCount;
-
-  @Builder
-  public PostSaveRequestDto(String caption, String likeCount) {
-    this.caption = caption;
-    this.likeCount = likeCount;
-  }
 
   public Post toEntity() {
     return Post.builder()
         .caption(caption)
-        .likeCount(likeCount)
         .build();
   }
 }
