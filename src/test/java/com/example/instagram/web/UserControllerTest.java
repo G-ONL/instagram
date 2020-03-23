@@ -2,10 +2,12 @@ package com.example.instagram.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.example.instagram.domain.user.User;
 import com.example.instagram.domain.user.UserRepository;
+import com.example.instagram.web.dto.ResponseDto;
 import com.example.instagram.web.dto.user.UserJoinRequestDto;
-import com.example.instagram.web.dto.user.UserSaveResponseDto;
+import com.example.instagram.web.dto.user.UserLoginResponseDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +23,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserControllerTest {
+
+  private final ObjectMapper mapper = new ObjectMapper();
 
   @LocalServerPort
   private int port;
@@ -47,12 +51,19 @@ public class UserControllerTest {
 
     //when
     ResponseEntity responseEntity = testRestTemplate
-        .postForEntity(url, userJoinRequestDto, UserSaveResponseDto.class);
+        .postForEntity(url, userJoinRequestDto, ResponseDto.class);
     //then
     assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    UserSaveResponseDto userSaveResponseDto = (UserSaveResponseDto) responseEntity.getBody();
-    assertThat(userSaveResponseDto).isInstanceOf(UserSaveResponseDto.class);
-    assertThat(userSaveResponseDto.getUserId()).isEqualTo(1L);
+    ResponseDto responseDto = (ResponseDto) responseEntity.getBody();
+    assertThat(responseDto).isInstanceOf(ResponseDto.class);
+    assertThat(responseDto.getStatus()).isEqualTo(200);
+    assertThat(responseDto.getMessage()).isEqualTo("Success");
+
+    UserLoginResponseDto userLoginResponseDto = mapper
+        .convertValue(responseDto.getData().get(0), new TypeReference<>() {
+        });
+
+    assertThat(userLoginResponseDto.getUserId()).isEqualTo(1L);
   }
 
 }
