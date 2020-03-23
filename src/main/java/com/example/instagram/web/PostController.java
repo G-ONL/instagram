@@ -22,29 +22,29 @@ public class PostController {
 
   private final PostService postService;
 
-  @PutMapping("/posts/{id}")
+  @PutMapping("/api/posts/{id}")
   public Long find(@PathVariable Long id, @RequestBody PostUpdateRequestDto updateRequestDto) {
     return postService.update(id, updateRequestDto);
   }
 
-  @GetMapping("/posts/{id}")
+  @GetMapping("/api/posts/{id}")
   public PostResponseDto find(@PathVariable Long id) {
     return postService.find(id);
   }
 
-  @PostMapping("/posts")
+  @PostMapping("/api/posts")
   public Long save(@RequestBody PostSaveRequestDto saveRequestDto, HttpServletRequest request) {
     Long userId = Long.valueOf(String.valueOf(request.getAttribute(CommonConstant.USER_ID)));
     return postService.save(saveRequestDto, userId);
   }
 
-  @DeleteMapping("/posts/{id}")
+  @DeleteMapping("/api/posts/{id}")
   public Long delete(@PathVariable Long id) {
     postService.delete(id);
     return id;
   }
 
-  @GetMapping("/posts")
+  @GetMapping("/api/posts")
   public PostsListResponseDto find() {
     return postService.findAll();
   }
