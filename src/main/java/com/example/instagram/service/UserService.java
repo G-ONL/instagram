@@ -2,8 +2,8 @@ package com.example.instagram.service;
 
 import com.example.instagram.domain.user.User;
 import com.example.instagram.domain.user.UserRepository;
-import com.example.instagram.web.dto.UserJoinRequestDto;
-import com.example.instagram.web.dto.UserLoginRequestDto;
+import com.example.instagram.web.dto.user.UserJoinRequestDto;
+import com.example.instagram.web.dto.user.UserLoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,4 +1,4 @@
-package com.example.instagram.web.dto;
+package com.example.instagram.web.dto.user;
 
 import lombok.Getter;
 

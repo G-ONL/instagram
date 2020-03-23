@@ -3,7 +3,7 @@ package com.example.instagram.web.dto.post;
 import com.example.instagram.domain.post.Post;
 import com.example.instagram.web.dto.comment.CommentResponseDto;
 import com.example.instagram.web.dto.PostPictureResponseDto;
-import com.example.instagram.web.dto.UserResponseDto;
+import com.example.instagram.web.dto.user.UserResponseDto;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

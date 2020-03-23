@@ -2,8 +2,9 @@ package com.example.instagram.web;
 
 import com.example.instagram.common.CommonConstant;
 import com.example.instagram.service.UserService;
-import com.example.instagram.web.dto.UserLoginRequestDto;
-import com.example.instagram.web.dto.UserJoinRequestDto;
+import com.example.instagram.web.dto.user.UserLoginRequestDto;
+import com.example.instagram.web.dto.user.UserJoinRequestDto;
+import com.example.instagram.web.dto.user.UserSaveResponseDto;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,8 @@ public class UserController {
   private final UserService userService;
 
   @PostMapping("user/join")
-  public ResponseEntity join(@RequestBody UserJoinRequestDto requestDto) {
-    return ResponseEntity.status(HttpStatus.OK).body(userService.join(requestDto));
+  public ResponseEntity<UserSaveResponseDto> join(@RequestBody UserJoinRequestDto requestDto) {
+    return ResponseEntity.status(HttpStatus.OK).body(new UserSaveResponseDto(userService.join(requestDto)));
   }
 
   @PostMapping("user/login")
