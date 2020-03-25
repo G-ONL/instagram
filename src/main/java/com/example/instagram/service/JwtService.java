@@ -1,8 +1,8 @@
 package com.example.instagram.service;
 
 import com.example.instagram.common.CommonConstant;
+import com.example.instagram.exception.JwtException;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

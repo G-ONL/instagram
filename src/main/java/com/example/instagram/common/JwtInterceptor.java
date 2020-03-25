@@ -1,5 +1,6 @@
 package com.example.instagram.common;
 
+import com.example.instagram.exception.JwtException;
 import com.example.instagram.service.JwtService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ public class JwtInterceptor implements HandlerInterceptor {
       request.setAttribute(CommonConstant.USER_ID, jwtService.getUserId(token));
       return true;
     } else {
-      throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+      throw new JwtException("토큰이 유효하지 않습니다.");
     }
   }
 }

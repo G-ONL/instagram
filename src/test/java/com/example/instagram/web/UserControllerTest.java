@@ -3,7 +3,7 @@ package com.example.instagram.web;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.instagram.domain.user.UserRepository;
-import com.example.instagram.web.dto.ResponseDto;
+import com.example.instagram.web.dto.ResponseDataDto;
 import com.example.instagram.web.dto.user.UserJoinRequestDto;
 import com.example.instagram.web.dto.user.UserLoginResponseDto;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -40,7 +40,6 @@ public class UserControllerTest {
     userRepository.deleteAll();
   }
 
-
   @Test
   public void 유저가_회원가입_성공() throws Exception {
     //given
@@ -51,16 +50,16 @@ public class UserControllerTest {
 
     //when
     ResponseEntity responseEntity = testRestTemplate
-        .postForEntity(url, userJoinRequestDto, ResponseDto.class);
+        .postForEntity(url, userJoinRequestDto, ResponseDataDto.class);
     //then
     assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    ResponseDto responseDto = (ResponseDto) responseEntity.getBody();
-    assertThat(responseDto).isInstanceOf(ResponseDto.class);
-    assertThat(responseDto.getStatus()).isEqualTo(200);
-    assertThat(responseDto.getMessage()).isEqualTo("Success");
+    ResponseDataDto responseDataDto = (ResponseDataDto) responseEntity.getBody();
+    assertThat(responseDataDto).isInstanceOf(ResponseDataDto.class);
+    assertThat(responseDataDto.getStatus()).isEqualTo(200);
+    assertThat(responseDataDto.getMessage()).isEqualTo("Success");
 
     UserLoginResponseDto userLoginResponseDto = mapper
-        .convertValue(responseDto.getData().get(0), new TypeReference<>() {
+        .convertValue(responseDataDto.getData().get(0), new TypeReference<>() {
         });
 
     assertThat(userLoginResponseDto.getUserId()).isEqualTo(1L);

@@ -6,26 +6,23 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ResponseDto<T> {
+public class ResponseMessageDto {
 
   private int status;
   private String message;
-  private List<T> data;
 
-  public ResponseDto(int status, T data) {
+  public ResponseMessageDto(int status) {
     if (200 == status) {
       this.message = "Success";
     } else {
       this.message = "Fail";
     }
     this.status = status;
-    this.data = List.of(data);
   }
 
-  public ResponseDto(int status, String message, List<T> data) {
+  public ResponseMessageDto(int status, String message) {
     this.status = status;
     this.message = message;
-    this.data = data;
   }
 
 

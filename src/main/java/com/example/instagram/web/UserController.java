@@ -3,11 +3,11 @@ package com.example.instagram.web;
 import com.example.instagram.common.CommonConstant;
 import com.example.instagram.service.JwtService;
 import com.example.instagram.service.UserService;
-import com.example.instagram.web.dto.ResponseDto;
+import com.example.instagram.web.dto.ResponseDataDto;
+import com.example.instagram.web.dto.ResponseMessageDto;
 import com.example.instagram.web.dto.user.UserLoginRequestDto;
 import com.example.instagram.web.dto.user.UserJoinRequestDto;
 import com.example.instagram.web.dto.user.UserLoginResponseDto;
-import com.example.instagram.web.dto.user.UserSaveResponseDto;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,16 +24,17 @@ public class UserController {
   private final JwtService jwtService;
 
   @PostMapping("user/join")
-  public ResponseEntity<ResponseDto> join(@RequestBody UserJoinRequestDto requestDto) {
-    return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), userService.join(requestDto)));
+  public ResponseEntity<ResponseMessageDto> join(@RequestBody UserJoinRequestDto requestDto) {
+    userService.join(requestDto);
+    return ResponseEntity.ok(new ResponseMessageDto(HttpStatus.OK.value()));
   }
 
   @PostMapping("user/login")
-  public ResponseEntity<ResponseDto> login(@RequestBody UserLoginRequestDto requestDto,
+  public ResponseEntity<ResponseMessageDto> login(@RequestBody UserLoginRequestDto requestDto,
       HttpServletResponse response) {
     UserLoginResponseDto userLoginResponseDto = userService.login(requestDto);
     response.setHeader(CommonConstant.AUTHORIZATION,
         jwtService.create(userLoginResponseDto.getUserId()));
-    return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), userLoginResponseDto));
+    return ResponseEntity.ok(new ResponseMessageDto(HttpStatus.OK.value()));
   }
 }
