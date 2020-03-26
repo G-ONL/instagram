@@ -6,8 +6,9 @@ build/
 !**/src/test/**
 
 ### real-db ###
-application-real-db.properties
-application-real.properties
+**/application-real-db.properties
+**/application-real.properties
+**/application-real-aws.properties
 
 ### STS ###
 .apt_generated
@@ -36,3 +37,7 @@ out/
 .vscode/
 src/main/resources/static/
 src/main/resources/templates/
+
+src/main/resources/application-real-db.properties
+src/main/resources/application-real-aws.properties
+src/main/resources/application-real.properties
