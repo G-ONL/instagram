@@ -1,5 +1,8 @@
 package com.example.instagram.service;
 
+//import com.example.instagram.common.S3Uploader;
+
+import com.example.instagram.common.S3Uploader;
 import com.example.instagram.domain.post.Post;
 import com.example.instagram.domain.post.PostRepository;
 import com.example.instagram.domain.postPicture.PostPicture;
@@ -10,14 +13,13 @@ import com.example.instagram.exception.PostException;
 import com.example.instagram.exception.UserException;
 import com.example.instagram.web.dto.PostPictureRequestDto;
 import com.example.instagram.web.dto.post.PostListResponseDto;
-import com.example.instagram.web.dto.post.PostSaveRequestDto;
 import com.example.instagram.web.dto.post.PostResponseDto;
+import com.example.instagram.web.dto.post.PostSaveRequestDto;
 import com.example.instagram.web.dto.post.PostUpdateRequestDto;
-import com.example.instagram.web.dto.post.PostsListResponseDto;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.service.UnknownServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +30,10 @@ public class PostService {
   private final PostRepository postRepository;
   private final UserRepository userRepository;
   private final PostPictureRepository postPictureRepository;
+  private final S3Uploader s3Uploader;
 
   @Transactional
-  public Long save(PostSaveRequestDto postSaveRequestDto, Long userId) {
+  public Long save(PostSaveRequestDto postSaveRequestDto, Long userId) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(
         () -> new UserException("존재하지 않는 유저 입니다.")
     );
@@ -41,13 +44,13 @@ public class PostService {
     return post.getId();
   }
 
-  private void savePostPicture(PostSaveRequestDto postSaveRequestDto, Post post) {
-    List<PostPictureRequestDto> postPictureRequestDto = postSaveRequestDto.getPictureUrls();
-    postPictureRequestDto.forEach(request -> {
-      PostPicture postPicture = request.toEntity();
-      postPicture.addToPost(post);
-      postPictureRepository.save(postPicture);
-    });
+  private void savePostPicture(PostSaveRequestDto postSaveRequestDto, Post post)
+      throws IOException {
+    String pictureUrl = s3Uploader.upload(postSaveRequestDto.getData(), "static");
+    PostPictureRequestDto request = new PostPictureRequestDto(pictureUrl);
+    PostPicture postPicture = request.toEntity();
+    postPicture.addToPost(post);
+    postPictureRepository.save(postPicture);
   }
 
   @Transactional(readOnly = true)

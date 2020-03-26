@@ -6,17 +6,23 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @NoArgsConstructor
 public class PostSaveRequestDto {
 
-  private List<PostPictureRequestDto> pictureUrls;
+  private MultipartFile data;
   private String caption;
+
 
   public Post toEntity() {
     return Post.builder()
         .caption(caption)
         .build();
+  }
+
+  public void inputImg(MultipartFile file){
+    this.data = file;
   }
 }

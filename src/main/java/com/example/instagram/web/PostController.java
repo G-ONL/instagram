@@ -6,6 +6,7 @@ import com.example.instagram.web.dto.ResponseDataDto;
 import com.example.instagram.web.dto.ResponseMessageDto;
 import com.example.instagram.web.dto.post.PostSaveRequestDto;
 import com.example.instagram.web.dto.post.PostUpdateRequestDto;
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -38,7 +40,11 @@ public class PostController {
 
   @PostMapping("/api/v1/posts")
   public ResponseEntity<ResponseMessageDto> save(@RequestBody PostSaveRequestDto saveRequestDto,
-      HttpServletRequest request) {
+      MultipartFile multipartFile,
+      HttpServletRequest request) throws IOException {
+    if (saveRequestDto.getData() == null) {
+      saveRequestDto.inputImg(multipartFile);
+    }
     Long userId = Long.valueOf(String.valueOf(request.getAttribute(CommonConstant.USER_ID)));
     postService.save(saveRequestDto, userId);
     return ResponseEntity.ok(new ResponseMessageDto(HttpStatus.OK.value()));
