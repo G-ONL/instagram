@@ -5,6 +5,10 @@ build/
 !**/src/main/**
 !**/src/test/**
 
+### real-db ###
+application-real-db.properties
+application-real.properties
+
 ### STS ###
 .apt_generated
 .classpath
@@ -30,3 +34,5 @@ out/
 
 ### VS Code ###
 .vscode/
+src/main/resources/static/
+src/main/resources/templates/
