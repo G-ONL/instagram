@@ -43,7 +43,7 @@ public class PostService {
     savePostPicture(postSaveRequestDto, post);
     return post.getId();
   }
-
+  
   private void savePostPicture(PostSaveRequestDto postSaveRequestDto, Post post)
       throws IOException {
     String pictureUrl = s3Uploader.upload(postSaveRequestDto.getData(), "static");

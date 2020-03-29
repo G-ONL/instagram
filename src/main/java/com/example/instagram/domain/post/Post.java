@@ -5,6 +5,7 @@ import com.example.instagram.domain.comment.Comment;
 import com.example.instagram.domain.like.Likes;
 import com.example.instagram.domain.postPicture.PostPicture;
 import com.example.instagram.domain.user.User;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;

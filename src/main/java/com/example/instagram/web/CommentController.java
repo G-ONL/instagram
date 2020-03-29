@@ -3,6 +3,7 @@ package com.example.instagram.web;
 import com.example.instagram.service.CommentService;
 import com.example.instagram.web.dto.ResponseDataDto;
 import com.example.instagram.web.dto.comment.CommentRequestDto;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(description = "댓글", tags="Comment")
 @RequiredArgsConstructor
 @RestController
 public class CommentController {

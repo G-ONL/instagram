@@ -6,6 +6,10 @@ import com.example.instagram.web.dto.ResponseDataDto;
 import com.example.instagram.web.dto.ResponseMessageDto;
 import com.example.instagram.web.dto.post.PostSaveRequestDto;
 import com.example.instagram.web.dto.post.PostUpdateRequestDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+@Api(description = "게시글", tags = "Post")
 @RequiredArgsConstructor
 @RestController
 public class PostController {
@@ -33,11 +38,19 @@ public class PostController {
     return ResponseEntity.ok(new ResponseMessageDto(HttpStatus.OK.value()));
   }
 
+  @ApiOperation(value = "게시글 개별 조회")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "id", value = "게시글 id", required = true, dataType = "string", paramType = "path", defaultValue = "1")
+  })
   @GetMapping("/api/v1/posts/{id}")
   public ResponseEntity<ResponseDataDto> find(@PathVariable Long id) {
     return ResponseEntity.ok(new ResponseDataDto(HttpStatus.OK.value(), postService.find(id)));
   }
 
+  @ApiOperation(value = "게시글 작성")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "caption", value = "게시글", required = true, dataType = "string", defaultValue = "게시글 입니다.")
+  })
   @PostMapping("/api/v1/posts")
   public ResponseEntity<ResponseMessageDto> save(@RequestBody PostSaveRequestDto saveRequestDto,
       MultipartFile multipartFile,
@@ -48,7 +61,6 @@ public class PostController {
     Long userId = Long.valueOf(String.valueOf(request.getAttribute(CommonConstant.USER_ID)));
     postService.save(saveRequestDto, userId);
     return ResponseEntity.ok(new ResponseMessageDto(HttpStatus.OK.value()));
-
   }
 
   @DeleteMapping("/api/v1/posts/{id}")

@@ -2,6 +2,7 @@ package com.example.instagram.domain.postPicture;
 
 import com.example.instagram.common.BaseTimeEntity;
 import com.example.instagram.domain.post.Post;
+import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

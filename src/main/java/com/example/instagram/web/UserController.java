@@ -8,6 +8,7 @@ import com.example.instagram.web.dto.ResponseMessageDto;
 import com.example.instagram.web.dto.user.UserLoginRequestDto;
 import com.example.instagram.web.dto.user.UserJoinRequestDto;
 import com.example.instagram.web.dto.user.UserLoginResponseDto;
+import io.swagger.annotations.Api;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(description = "회원가입/로그인", tags="User")
 @RequiredArgsConstructor
 @RestController
 public class UserController {

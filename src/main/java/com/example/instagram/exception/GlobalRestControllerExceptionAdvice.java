@@ -3,6 +3,7 @@ package com.example.instagram.exception;
 import com.example.instagram.web.dto.ExceptionResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -26,10 +27,18 @@ public class GlobalRestControllerExceptionAdvice {
   }
 
   @ExceptionHandler(UserException.class)
-  public ResponseEntity<ExceptionResponseDto> notFoundUser() {
+  public ResponseEntity<ExceptionResponseDto> notFoundUser(Exception e) {
     return ResponseEntity.badRequest().body(
         ExceptionResponseDto.builder().status(HttpStatus.BAD_REQUEST.value())
-            .message("유저가 존재하지 않습니다.")
+            .message(e.getMessage())
+            .build());
+  }
+
+  @ExceptionHandler(UsernameNotFoundException.class)
+  public ResponseEntity<ExceptionResponseDto> duplicateUserName(Exception e) {
+    return ResponseEntity.badRequest().body(
+        ExceptionResponseDto.builder().status(HttpStatus.BAD_REQUEST.value())
+            .message(e.getMessage())
             .build());
   }
 }
