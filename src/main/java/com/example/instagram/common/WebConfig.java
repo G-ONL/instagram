@@ -11,7 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
   private final JwtInterceptor jwtInterceptor;
-  private static final String[] EXCLUDE_PATHS = {"/resource/**","/static/**", "/user/**", "/error/**"};
+  private static final String[] EXCLUDE_PATHS = {"/resource/**", "/static/**", "/user/**",
+      "/error/**"};
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
@@ -22,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-        .allowedOrigins("*");
+        .allowedOrigins("*")
+        .exposedHeaders("authorization");
   }
-
 }
