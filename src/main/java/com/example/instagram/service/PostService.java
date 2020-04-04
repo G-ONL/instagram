@@ -20,9 +20,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class PostService {
@@ -76,6 +78,7 @@ public class PostService {
   }
 
   public List<PostListResponseDto> findAll() {
+    log.info("========== Get : /api/v1/posts 호출");
     return postRepository.findAll().stream().map(PostListResponseDto::new)
         .collect(Collectors.toList());
 

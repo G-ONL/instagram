@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Api(description = "게시글", tags = "Post")
 @RequiredArgsConstructor
 @RestController
@@ -71,6 +73,7 @@ public class PostController {
 
   @GetMapping("/api/v1/posts")
   public ResponseEntity<ResponseDataDto> find() {
+    log.info("========== Get : /api/v1/posts 호출");
     return ResponseEntity.ok(new ResponseDataDto(HttpStatus.OK.value(), postService.findAll()));
   }
 }
