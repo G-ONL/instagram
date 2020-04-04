@@ -22,7 +22,7 @@ public class Likes extends BaseTimeEntity {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name="user_id")
+  @JoinColumn(name="USER_ID")
   private User user;
 
   @ManyToOne

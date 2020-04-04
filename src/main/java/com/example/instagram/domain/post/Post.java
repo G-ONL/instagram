@@ -46,7 +46,7 @@ public class Post extends BaseTimeEntity {
   private List<PostPicture> postPictures = new ArrayList<>();
 
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "USER_ID")
   private User user;
 
   @Builder
