@@ -3,6 +3,7 @@ package com.example.instagram.common;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.web.cors.CorsUtils;
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -11,6 +12,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.httpBasic().disable()
         .csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().authorizeRequests().anyRequest().permitAll().and().cors();
+        .and().authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll().and().cors();
   }
 }
