@@ -90,9 +90,6 @@ export default withRouter(({ history }) => {
           <HeaderLink to="/explore">
             <Compass />
           </HeaderLink>
-          <HeaderLink to="/upload">
-            <span>사진업로드</span>
-          </HeaderLink>
           <HeaderLink to="/notifications">
             <HeartEmpty />
           </HeaderLink>
