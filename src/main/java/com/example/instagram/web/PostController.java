@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,11 +55,11 @@ public class PostController {
       @ApiImplicitParam(name = "caption", value = "게시글", required = true, dataType = "string", defaultValue = "게시글 입니다.")
   })
   @PostMapping("/api/v1/posts")
-  public ResponseEntity<ResponseMessageDto> save(@RequestBody PostSaveRequestDto saveRequestDto,
-      MultipartFile multipartFile,
+  public ResponseEntity<ResponseMessageDto> save(@RequestParam("file") MultipartFile[] files, @RequestParam("caption")String caption,
       HttpServletRequest request) throws IOException {
+    PostSaveRequestDto saveRequestDto = new PostSaveRequestDto(files[0],caption);
     if (saveRequestDto.getData() == null) {
-      saveRequestDto.inputImg(multipartFile);
+      saveRequestDto.inputImg(files[0]);
     }
     Long userId = Long.valueOf(String.valueOf(request.getAttribute(CommonConstant.USER_ID)));
     postService.save(saveRequestDto, userId);
