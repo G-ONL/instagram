@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,11 +56,11 @@ public class PostController {
   @ApiImplicitParams({
       @ApiImplicitParam(name = "caption", value = "게시글", required = true, dataType = "string", defaultValue = "게시글 입니다.")
   })
+
   @PostMapping("/api/v1/posts")
   public ResponseEntity<ResponseMessageDto> save(@RequestParam("file") MultipartFile[] files, @RequestParam("caption")String caption,
       HttpServletRequest request) throws IOException {
-    log.info("========== Post : /api/v1/posts 호출");
-    log.info("========== 이미지 파일 개수: " + files.length + "   이미지 파일 첫 번째 : "+ files[0]);
+    log.debug("========== Post : /api/v1/posts 호출");
 
     PostSaveRequestDto saveRequestDto = new PostSaveRequestDto(files[0],caption);
     if (saveRequestDto.getData() == null) {
@@ -77,7 +79,9 @@ public class PostController {
 
   @GetMapping("/api/v1/posts")
   public ResponseEntity<ResponseDataDto> find() {
-    log.info("========== Get : /api/v1/posts 호출");
-    return ResponseEntity.ok(new ResponseDataDto(HttpStatus.OK.value(), postService.findAll()));
+    log.debug("========== Get : /api/v1/posts 호출");
+    Map<String, Object> posts = new HashMap<>();
+    posts.put("posts", postService.findAll());
+    return ResponseEntity.ok(new ResponseDataDto(HttpStatus.OK.value(), posts));
   }
 }
