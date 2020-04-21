@@ -12,7 +12,7 @@ public class ResponseDataDto<T> {
   private String message;
   private List<T> data;
 
-  public ResponseDataDto(int status){
+  public ResponseDataDto(int status) {
     if (200 == status) {
       this.message = "Success";
     } else {
@@ -29,6 +29,16 @@ public class ResponseDataDto<T> {
     }
     this.status = status;
     this.data = List.of(data);
+  }
+
+  public ResponseDataDto(int status, List<T> data) {
+    if (200 == status) {
+      this.message = "Success";
+    } else {
+      this.message = "Fail";
+    }
+    this.status = status;
+    this.data = data;
   }
 
   public ResponseDataDto(int status, String message, List<T> data) {

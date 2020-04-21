@@ -11,8 +11,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,11 +56,12 @@ public class PostController {
   })
 
   @PostMapping("/api/v1/posts")
-  public ResponseEntity<ResponseMessageDto> save(@RequestParam("file") MultipartFile[] files, @RequestParam("caption")String caption,
+  public ResponseEntity<ResponseMessageDto> save(@RequestParam("file") MultipartFile[] files,
+      @RequestParam("caption") String caption,
       HttpServletRequest request) throws IOException {
     log.debug("========== Post : /api/v1/posts 호출");
 
-    PostSaveRequestDto saveRequestDto = new PostSaveRequestDto(files[0],caption);
+    PostSaveRequestDto saveRequestDto = new PostSaveRequestDto(files[0], caption);
     if (saveRequestDto.getData() == null) {
       saveRequestDto.inputImg(files[0]);
     }
@@ -80,8 +79,6 @@ public class PostController {
   @GetMapping("/api/v1/posts")
   public ResponseEntity<ResponseDataDto> find() {
     log.debug("========== Get : /api/v1/posts 호출");
-    Map<String, Object> posts = new HashMap<>();
-    posts.put("posts", postService.findAll());
-    return ResponseEntity.ok(new ResponseDataDto(HttpStatus.OK.value(), posts));
+    return ResponseEntity.ok(new ResponseDataDto(HttpStatus.OK.value(), postService.findAll()));
   }
 }
