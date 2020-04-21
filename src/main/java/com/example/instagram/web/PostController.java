@@ -57,6 +57,9 @@ public class PostController {
   @PostMapping("/api/v1/posts")
   public ResponseEntity<ResponseMessageDto> save(@RequestParam("file") MultipartFile[] files, @RequestParam("caption")String caption,
       HttpServletRequest request) throws IOException {
+    log.info("========== Post : /api/v1/posts 호출");
+    log.info("========== 이미지 파일 개수: " + files.length + "   이미지 파일 첫 번째 : "+ files[0]);
+
     PostSaveRequestDto saveRequestDto = new PostSaveRequestDto(files[0],caption);
     if (saveRequestDto.getData() == null) {
       saveRequestDto.inputImg(files[0]);
