@@ -29,13 +29,13 @@ public class UserController {
   private final UserService userService;
   private final JwtService jwtService;
 
-  @PostMapping("user/join")
+  @PostMapping("/user/join")
   public ResponseEntity<ResponseMessageDto> join(@RequestBody UserJoinRequestDto requestDto) {
     userService.join(requestDto);
     return ResponseEntity.ok(new ResponseMessageDto(HttpStatus.OK.value()));
   }
 
-  @PostMapping("user/login")
+  @PostMapping("/user/login")
   public ResponseEntity<ResponseMessageDto> login(@RequestBody UserLoginRequestDto requestDto,
       HttpServletResponse response) {
     UserLoginResponseDto userLoginResponseDto = userService.login(requestDto);
@@ -44,7 +44,7 @@ public class UserController {
     return ResponseEntity.ok(new ResponseMessageDto(HttpStatus.OK.value()));
   }
 
-  @PostMapping("user/avatar")
+  @PostMapping("/user/avatar")
   public ResponseEntity<ResponseMessageDto> avatarUpload(
       @RequestParam("file") MultipartFile[] files,
       HttpServletRequest request) throws IOException {
