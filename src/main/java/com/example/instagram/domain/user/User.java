@@ -53,4 +53,7 @@ public class User extends BaseTimeEntity {
     this.password = password;
   }
 
+  public void addAvatar(String pictureUrl) {
+    this.avatarUrl = pictureUrl;
+  }
 }
