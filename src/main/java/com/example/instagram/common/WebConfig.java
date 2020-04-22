@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
   private final JwtInterceptor jwtInterceptor;
-  private static final String[] EXCLUDE_PATHS = {"/resource/**", "/static/**", "/user/**",
+  private static final String[] EXCLUDE_PATHS = {"/resource/**", "/static/**", "/user/login/**", "/user/join/**",
       "/error/**"};
 
   @Override
