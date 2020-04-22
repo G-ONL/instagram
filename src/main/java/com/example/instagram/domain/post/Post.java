@@ -8,6 +8,7 @@ import com.example.instagram.domain.user.User;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,13 +37,13 @@ public class Post extends BaseTimeEntity {
 
   private String likeCount;
 
-  @OneToMany(mappedBy = "post")
+  @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE)
   private List<Comment> comments = new ArrayList<>();
 
-  @OneToMany(mappedBy = "post")
+  @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE)
   private List<Likes> likes = new ArrayList<>();
 
-  @OneToMany(mappedBy = "post")
+  @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE)
   private List<PostPicture> postPictures = new ArrayList<>();
 
   @ManyToOne
