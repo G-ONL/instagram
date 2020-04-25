@@ -27,15 +27,16 @@ public class Comment extends BaseTimeEntity {
   private String comment;
 
   @ManyToOne
-  @JoinColumn(name="POST_ID")
+  @JoinColumn(name = "POST_ID")
   private Post post;
 
   @ManyToOne
-  @JoinColumn(name="USER_ID")
+  @JoinColumn(name = "USER_ID")
   private User user;
 
   @Builder
   public Comment(String comment) {
+
     this.comment = comment;
   }
 
@@ -43,6 +44,14 @@ public class Comment extends BaseTimeEntity {
     this.post = post;
     if (!post.getComments().contains(this)) {
       post.getComments().add(this);
+    }
+  }
+
+
+  public void addToUser(User user) {
+    this.user = user;
+    if (!user.getComments().contains(this)) {
+      user.getComments().add(this);
     }
   }
 }
