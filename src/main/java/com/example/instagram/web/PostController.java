@@ -3,6 +3,7 @@ package com.example.instagram.web;
 import com.example.instagram.common.CommonConstant;
 import com.example.instagram.service.PostService;
 import com.example.instagram.web.dto.ResponseDataDto;
+import com.example.instagram.web.dto.ResponseListDataDto;
 import com.example.instagram.web.dto.ResponseMessageDto;
 import com.example.instagram.web.dto.post.PostSaveRequestDto;
 import com.example.instagram.web.dto.post.PostUpdateRequestDto;
@@ -77,8 +78,8 @@ public class PostController {
   }
 
   @GetMapping("/api/v1/posts")
-  public ResponseEntity<ResponseDataDto> find() {
+  public ResponseEntity<ResponseListDataDto> find() {
     log.debug("========== Get : /api/v1/posts 호출");
-    return ResponseEntity.ok(new ResponseDataDto(HttpStatus.OK.value(), postService.findAll()));
+    return ResponseEntity.ok(new ResponseListDataDto(HttpStatus.OK.value(), postService.findAll()));
   }
 }
