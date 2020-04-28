@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const Footer = styled.footer`
+  max-width: ${props => props.theme.maxWidth};
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;

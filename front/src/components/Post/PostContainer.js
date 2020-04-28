@@ -1,75 +1,74 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import PostPresenter from "./PostPresenter";
+import { connect } from 'react-redux';
+import serverapi from '../../api/serverapi'
+import { CREATE_COMMENT_SUCCESS } from '../../actions/actionTypes';
+import {createCommentAndDispatchPost} from '../../actions/loadActions';
 
-const PostContainer = ({
-  id,
-  user,
-  files,
-  likeCount,
-  isLiked,
-  comments,
-  createdAt,
-  caption,
-  location
-}) => {
-  const [isLikedS, setIsLiked] = useState(isLiked);
-  const [likeCountS, setLikeCount] = useState(likeCount);
-  const [currentItem, setCurrentItem] = useState(0);
-  const [selfComments, setSelfComments] = useState([]);
-  const comment = "";
-  const slide = () => {
-    const totalFiles = files.length;
-    if (currentItem === totalFiles - 1) {
-      setTimeout(() => setCurrentItem(0), 3000);
-    } else {
-      setTimeout(() => setCurrentItem(currentItem + 1), 3000);
-    }
-  };
-  useEffect(() => {
-    slide();
-  }, [currentItem]);
+class PostContainer extends React.Component {
+  render() {
+    const {
+      id,
+      user,
+      postPictures,
+      likeCount,
+      isLiked,
+      comments,
+      createdDate,
+      caption
+    } = this.props;
 
-  const toggleLike = () => {
-    if (isLikedS === true) {
-      setIsLiked(false);
-      setLikeCount(likeCountS - 1);
-    } else {
-      setIsLiked(true);
-      setLikeCount(likeCountS + 1);
-    }
-  };
-
-  const onKeyPress = async event => {
-    const { which } = event;
-    if (which === 13) {
-      event.preventDefault();
-      try {
-      } catch {
+    this.state = {
+      isLikedS: isLiked,
+      likeCountS: likeCount
+    };
+    const setIsLiked = (isLikedS) => { this.state.isLikedS = isLikedS; };
+    const setLikeCount = (likeCountS) => { this.state.likeCountS = likeCountS; };
+    const comment = "";
+    const toggleLike = () => {
+      if (this.state.isLikedS === true) {
+        setIsLiked(false);
+        setLikeCount(this.state.likeCountS - 1);
+      } else {
+        setIsLiked(true);
+        setLikeCount(this.state.likeCountS + 1);
       }
-    }
-  };
-
-  return (
-    <PostPresenter
-      user={user}
-      files={files}
-      likeCount={likeCountS}
-      location={location}
-      caption={caption}
-      isLiked={isLikedS}
-      comments={comments}
-      createdAt={createdAt}
-      newComment={comment}
-      setIsLiked={setIsLiked}
-      setLikeCount={setLikeCount}
-      currentItem={currentItem}
-      toggleLike={toggleLike}
-      onKeyPress={onKeyPress}
-      selfComments={selfComments}
-    />
-  );
-};
+    };
+    const onKeyPress = async event => {
+      const { which } = event;
+      if (which === 13) {
+        event.preventDefault();
+        try {
+        } catch {
+        }
+      }
+    };
+    console.log("postcontainer rendered");
+    return (
+      <PostPresenter
+        user={user}
+        postPictures={postPictures}
+        likeCount={this.state.likeCountS}
+        caption={caption}
+        isLiked={this.state.isLikedS}
+        comments={comments}
+        createdDate={createdDate}
+        setIsLiked={setIsLiked}
+        setLikeCount={setLikeCount}
+        toggleLike={toggleLike}
+        onKeyPress={onKeyPress}
+        sendComment={(comment) => {
+          this.props.sendComment({
+            authorization: this.props.authorization,
+            postId: id,
+            comment
+          });
+        }}
+      />
+    );
+  }
+}
 
 PostContainer.propTypes = {
   id: PropTypes.string.isRequired,
@@ -100,5 +99,12 @@ PostContainer.propTypes = {
   location: PropTypes.string,
   createdAt: PropTypes.string.isRequired
 };
-
-export default PostContainer;
+const mapStateToProps = (state) => ({
+  authorization: state.loginReducer.authorization
+})
+const mapDispatchToProps = (dispatch) => ({
+  sendComment: ({authorization, postId, comment}) => {
+    createCommentAndDispatchPost({ authorization, dispatch, postId, comment });
+  }
+});
+export default connect(mapStateToProps, mapDispatchToProps)(PostContainer);

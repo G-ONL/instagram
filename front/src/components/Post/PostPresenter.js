@@ -5,6 +5,7 @@ import TextareaAutosize from "react-autosize-textarea";
 import FatText from "../FatText";
 import Avatar from "../Avatar";
 import { HeartFull, HeartEmpty, Comment as CommentIcon } from "../Icons";
+import InputRef from '../../util/InputRef';
 
 const Post = styled.div`
   ${props => props.theme.whiteBox};
@@ -33,7 +34,7 @@ const Location = styled.span`
   font-size: 12px;
 `;
 
-const Files = styled.div`
+const Pictures = styled.div`
   position: relative;
   padding-bottom: 100%;
   display: flex;
@@ -83,7 +84,7 @@ const Timestamp = styled.span`
   border-bottom: ${props => props.theme.lightGreyColor} 1px solid;
 `;
 
-const Textarea = styled(TextareaAutosize)`
+const Textarea = styled.input`
   border: none;
   width: 100%;
   resize: none;
@@ -108,73 +109,89 @@ const Caption = styled.div`
   margin: 10px 0px;
 `;
 
-export default ({
-  user: { username, avatar },
-  location,
-  files,
-  isLiked,
-  likeCount,
-  createdAt,
-  newComment,
-  currentItem,
-  toggleLike,
-  onKeyPress,
-  comments,
-  selfComments,
-  caption
-}) => (
-  <Post>
-    <Header>
-      <Avatar size="sm" url={avatar} />
-      <UserColumn>
-        <Link to={`/${username}`}>
-          <FatText text={username} />
-        </Link>
-        <Location>{location}</Location>
-      </UserColumn>
-    </Header>
-    <Files>
-      {files &&
-        files.map((file, index) => (
-          <File key={file.id} src={file.url} showing={index === currentItem} />
-        ))}
-    </Files>
-    <Meta>
-      <Buttons>
-        <Button onClick={toggleLike}>
-          {isLiked ? <HeartFull /> : <HeartEmpty />}
-        </Button>
-        <Button>
-          <CommentIcon />
-        </Button>
-      </Buttons>
-      <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
-      <Caption>
-        <FatText text={username} /> {caption}
-      </Caption>
-      {comments && (
-        <Comments>
-          {comments.map(comment => (
-            <Comment key={comment.id}>
-              <FatText text={comment.user.username} />
-              {comment.text}
-            </Comment>
-          ))}
-          {selfComments.map(comment => (
-            <Comment key={comment.id}>
-              <FatText text={comment.user.username} />
-              {comment.text}
-            </Comment>
-          ))}
-        </Comments>
-      )}
-      <Timestamp>{createdAt}</Timestamp>
-      <Textarea
-        onKeyPress={onKeyPress}
-        placeholder={"Add a comment..."}
-        value={newComment.value}
-        onChange={newComment.onChange}
-      />
-    </Meta>
-  </Post>
-);
+const Picture = styled.div`
+  max-width: 100%;
+  width: 100%;
+  height: 600px;
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
+`;
+class PostPresenter extends React.Component{
+  render(){
+    const {
+      user: { userName, avatarUrl, location },
+      postPictures,
+      isLiked, // no
+      likeCount,
+      createdDate,
+      toggleLike, //
+      onKeyPress, //
+      comments,
+      caption,
+      sendComment
+    } = this.props;
+    
+    let inputRef = new InputRef();
+    const onclick = () => {
+      const { comment } = inputRef.getInput("comment");
+      if(comment == undefined || comment == '' || comment == null)
+        return;
+      sendComment(comment);
+    };
+    return(
+      <Post>
+        <Header>
+          <Avatar size="sm" url={avatarUrl} />
+          <UserColumn>
+            <Link to={`/${userName}`}>
+              <FatText text={userName} />
+            </Link>
+            <Location>{location}</Location>
+          </UserColumn>
+        </Header>
+        <Picture src={postPictures[0].pictureUrl}/>
+        <Meta>
+          <Buttons>
+            <Button onClick={toggleLike}>
+              {isLiked ? <HeartFull /> : <HeartEmpty />}
+            </Button>
+            <Button>
+              <CommentIcon />
+            </Button>
+          </Buttons>
+          <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
+          <Caption>
+            <FatText text={userName} /> {caption}
+          </Caption>
+          {comments && (
+            <Comments>
+              {comments.map((comment) => (
+                <Comment key={comment.id}>
+                  <FatText text={"user "} />
+                  {comment.comment}
+                </Comment>
+              ))}
+              {/* {selfComments.map(comment => (
+                <Comment >
+                  <FatText text={"user "} />
+                  {comment}
+                </Comment>
+              ))} */undefined}
+            </Comments>
+          )}
+          <Timestamp>{createdDate}</Timestamp>
+          <Textarea
+            type="text"
+            onKeyPress={onKeyPress}
+            ref={inputRef.getRef()}
+            name="comment"
+            placeholder={"Add a comment..."}
+          />
+          <button onClick={onclick}>send</button>
+        </Meta>
+      </Post>
+    );
+  }
+}
+export default PostPresenter;

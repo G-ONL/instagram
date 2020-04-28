@@ -8,7 +8,6 @@ export const tryLoginAndDispatch = (dispatch) => (id, password) => {
             let authorization = response.headers.get("authorization");
             let message = response.json()
                 .then(data => {
-                    console.log(data);
                     if (data.message == 'Success') {
                         dispatch({
                             type: types.LOGIN_SUCCESS,
@@ -20,14 +19,14 @@ export const tryLoginAndDispatch = (dispatch) => (id, password) => {
                 });
         });
 };
-export const tryGetPostsAndDispatch = (dispatch) => (authorization) => {
-    return serverapi.getPosts(authorization)
+export const tryGetPostsAndDispatch_API = (dispatch, authorization) => {
+    return serverapi.getPosts(authorization)    // 서버에 posts데이터를 요청하는 함수.
         .then(response => {
             if (response.message == 'Success') {
                 dispatch({
                     type: types.LOAD_GETPOSTS_SUCCESS,
                     data: {
-                        posts: response.data.posts,
+                        posts: response.data,
                     }
                 });
             } else {
@@ -37,25 +36,37 @@ export const tryGetPostsAndDispatch = (dispatch) => (authorization) => {
             }
         });
 };
+export const createCommentAndDispatchPost = ({dispatch, authorization, postId, comment}) => {
+    // 서버에 comment 생성한다
+    // ok면
+    // 서버에 post 요청한다
+    // ok면
+    // dispatch 한다
 
-export function getArticles() {
-    return function (dispatch) {
-        return serverapi.getArticles().then(cats => {
-            dispatch(getArticlesSuccess(cats));
-        }).catch(error => {
-            throw (error);
-        });
-    };
+
+    // comment생성 시도
+    // 성공시 post를 get해서 dispatch한다
+    serverapi.createComment({authorization, postId, comment})
+        .then(response => {
+            if(response.message == 'Success'){
+                serverapi.getPost({authorization, postId})
+                    .then(response=>{
+                        if(response.message == 'Success'){
+                            dispatch({
+                                type:types.LOAD_GETPOST_SUCCESS,
+                                data:response.data
+                            });
+                        }
+                    })
+            }
+        })
 }
 
-export function getArticlesSuccess(articles) {
-    return { type: types.LOAD_GETPOSTS_SUCCESS, articles };
+function getAddedNumber(data){
+    return data.a + data.b;
 }
-
-export function tryLogin(id, password) {
-    return function (dispatch) {
-        return fetch('http://localhost:8080/login', { method: 'POST' })
-            .then((response) => response.text())
-            .then(data => data);
-    }
-}
+let k = {
+    a: 3,
+    b: 4
+};
+let result = getAddedNumber(k);

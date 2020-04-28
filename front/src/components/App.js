@@ -15,6 +15,8 @@ const Wrapper = styled.div`
   margin: 0 auto;
   max-width: ${props => props.theme.maxWidth};
   width: 100%;
+  min-height: 700px;
+  height: 100%;
 `;
 
 // 로그인이 되어 있지 않으면 로그인페이지로,
@@ -29,15 +31,15 @@ class App extends React.Component {
             <GlobalStyles />
             <Router>
               <>
-                <Header />
+                <Header/>
                 <Wrapper>
                   <Switch>
                     <Route exact path="/" component={Feed} />
                     <Route exact path="/upload" component={upload} />
                     <Route path="*" component={Feed} />
                   </Switch>
-                  <Footer />
                 </Wrapper>
+                <Footer />
               </>
             </Router>
           </>

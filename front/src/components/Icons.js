@@ -1,5 +1,9 @@
 import React from "react";
 
+export const Write = () => (
+  <i class="far fa-edit" style={{fontSize:'24px', color: 'black', position: 'relative', bottom: '4px'}}></i>
+);
+
 export const Compass = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
