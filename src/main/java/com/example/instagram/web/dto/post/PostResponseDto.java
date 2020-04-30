@@ -25,7 +25,7 @@ public class PostResponseDto {
   public PostResponseDto(Post entity) {
     this.id = entity.getId();
     this.caption = entity.getCaption();
-    this.likeCount = entity.getLikeCount();
+    this.likeCount = String.valueOf(entity.getLikes().stream().count());
     this.comments = entity.getComments().stream().map(CommentResponseDto::new)
         .collect(Collectors.toList());
     this.postPictures = entity.getPostPictures().stream().map(PostPictureResponseDto::new)
