@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import Input from "./Input";
-import { Compass, HeartEmpty, User, Logo } from "./Icons";
+import { Compass, HeartEmpty, User, Logo, Write } from "./Icons";
 
 const Header = styled.div`
   width: 100%;
@@ -89,6 +89,9 @@ export default withRouter(({ history }) => {
         <HeaderColumn>
           <HeaderLink to="/explore">
             <Compass />
+          </HeaderLink>
+          <HeaderLink to="/upload">
+            <Write />
           </HeaderLink>
           <HeaderLink to="/notifications">
             <HeartEmpty />

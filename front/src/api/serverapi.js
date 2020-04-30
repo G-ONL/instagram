@@ -23,16 +23,39 @@ class serverapi {
         })
             .then(response => response.json());
     }
+    static getPost({authorization, postId}) {
+        return fetch(amazonurl + `/api/v1/posts/${postId}`, {
+            method: 'GET',
+            headers: {
+                authorization
+            }
+        })
+            .then(response => response.json());
+    }
     static createPost(authorization, data) {
         return fetch(amazonurl + '/api/v1/posts', {
             method: 'POST',
             headers: {
                 'authorization': authorization,
-                'Accept': 'application/json, application/xml, text/plain, text/html, *.*'
+                'Accept': 'application/json, application/xml, text/plain, text/html'
             },
             body: data
+        }).catch(console.error)
+        .then(response => console.log(response.json()));
+    }
+    static createComment({authorization, postId, comment}){
+        return fetch(amazonurl + '/api/v1/comments', {
+            method: 'POST',
+            headers: {
+                authorization,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                postId,
+                comment
+            })
         })
-            .then(response => response.json());
+            .then((response)=>response.json());
     }
     static updateArticle() {
     }

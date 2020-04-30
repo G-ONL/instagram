@@ -61,8 +61,10 @@ const Box = styled.div`
     `;
 class Login extends React.Component {
     render() {
+        const { authorization } = this.props;
+        
         // 이미 로그인이 되어있다면, 라우터 다시 타게 하기
-        if (this.props.authorization) {
+        if (authorization) {
             return (<Redirect to="/"></Redirect>);
         }
 
