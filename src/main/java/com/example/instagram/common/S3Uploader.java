@@ -4,13 +4,13 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +54,7 @@ public class S3Uploader {
     return upload(uploadFile, dirName);
   }
 
+
   public String upload(File uploadFile, String dirName) {
     String fileName = dirName + "/" + uploadFile.getName();
     String uploadImageUrl = putS3(uploadFile, fileName);
@@ -64,7 +65,10 @@ public class S3Uploader {
   private String putS3(File uploadFile, String fileName) {
     s3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(
         CannedAccessControlList.PublicRead));
-    return s3Client.getUrl(bucket, fileName).toString();
+    URL s3Url = s3Client.getUrl(bucket, fileName);
+    log.info("S3 주소 : " +  s3Url.toString());
+    log.info("S3 External 주소 : " + s3Url.toExternalForm());
+    return s3Url.toExternalForm();
   }
 
   private void removeNewFile(File targetFile) {
