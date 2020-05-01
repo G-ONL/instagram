@@ -1,11 +1,13 @@
 package com.example.instagram.web.dto.post;
 
+import com.example.instagram.domain.like.Likes;
 import com.example.instagram.domain.post.Post;
 import com.example.instagram.web.dto.comment.CommentResponseDto;
 import com.example.instagram.web.dto.PostPictureResponseDto;
 import com.example.instagram.web.dto.user.UserResponseDto;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.Getter;
 
@@ -15,6 +17,7 @@ public class PostListResponseDto {
   private Long id;
   private String caption;
   private String likeCount;
+  private Boolean isLiked;
   private LocalDateTime createdDate;
   private LocalDateTime modifiedDate;
 
@@ -34,5 +37,11 @@ public class PostListResponseDto {
     this.createdDate = entity.getCreatedDate();
     this.modifiedDate = entity.getModifiedDate();
 
+  }
+
+  public void checkLiked(Optional<Likes> likes) {
+    if (likes.isPresent()) {
+      this.isLiked = true;
+    }
   }
 }

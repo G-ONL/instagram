@@ -3,6 +3,8 @@ package com.example.instagram.service;
 //import com.example.instagram.common.S3Uploader;
 
 import com.example.instagram.common.S3Uploader;
+import com.example.instagram.domain.like.Likes;
+import com.example.instagram.domain.like.LikesRepository;
 import com.example.instagram.domain.post.Post;
 import com.example.instagram.domain.post.PostRepository;
 import com.example.instagram.domain.postPicture.PostPicture;
@@ -17,8 +19,9 @@ import com.example.instagram.web.dto.post.PostResponseDto;
 import com.example.instagram.web.dto.post.PostSaveRequestDto;
 import com.example.instagram.web.dto.post.PostUpdateRequestDto;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,7 @@ public class PostService {
 
   private final PostRepository postRepository;
   private final UserRepository userRepository;
+  private final LikesRepository likesRepository;
   private final PostPictureRepository postPictureRepository;
   private final S3Uploader s3Uploader;
 
@@ -45,7 +49,7 @@ public class PostService {
     savePostPicture(postSaveRequestDto, post);
     return post.getId();
   }
-  
+
   private void savePostPicture(PostSaveRequestDto postSaveRequestDto, Post post)
       throws IOException {
     String pictureUrl = s3Uploader.upload(postSaveRequestDto.getData(), "static");
@@ -56,10 +60,16 @@ public class PostService {
   }
 
   @Transactional(readOnly = true)
-  public PostResponseDto find(Long id) {
+  public PostResponseDto find(Long id, Long userId) {
     Post post = postRepository.findById(id).orElseThrow(()
         -> new PostException("해당 포스트가 없습니다."));
-    return new PostResponseDto(post);
+    User user = userRepository.findById(userId).orElseThrow(()
+        -> new IllegalArgumentException("유저가 없습니다.")
+    );
+    Optional<Likes> likes = likesRepository.findByPostAndUser(post, user);
+    PostResponseDto postResponseDto = new PostResponseDto(post);
+    postResponseDto.checkLiked(likes);
+    return postResponseDto;
   }
 
   @Transactional
@@ -77,10 +87,19 @@ public class PostService {
     postRepository.delete(post);
   }
 
-  public List<PostListResponseDto> findAll() {
-    log.info("========== Get : /api/v1/posts 호출");
-    return postRepository.findAll().stream().map(PostListResponseDto::new)
-        .collect(Collectors.toList());
+  public List<PostListResponseDto> findAll(Long userId) {
+    List<Post> postList = postRepository.findAll();
+    User user = userRepository.findById(userId).orElseThrow(()
+        -> new IllegalArgumentException("유저가 없습니다.")
+    );
+    List<PostListResponseDto> listResponseDtos = new ArrayList<>();
+    for (Post post : postList) {
+      Optional<Likes> likes = likesRepository.findByPostAndUser(post, user);
+      PostListResponseDto postListResponseDto = new PostListResponseDto(post);
+      postListResponseDto.checkLiked(likes);
+      listResponseDtos.add(postListResponseDto);
+    }
+    return listResponseDtos;
 
   }
 }
