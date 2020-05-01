@@ -10,7 +10,6 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -65,10 +64,7 @@ public class S3Uploader {
   private String putS3(File uploadFile, String fileName) {
     s3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(
         CannedAccessControlList.PublicRead));
-    URL s3Url = s3Client.getUrl(bucket, fileName);
-    log.info("S3 주소 : " +  s3Url.toString());
-    log.info("S3 External 주소 : " + s3Url.toExternalForm());
-    return s3Url.toExternalForm();
+    return s3Client.getUrl(bucket, fileName).toString();
   }
 
   private void removeNewFile(File targetFile) {
