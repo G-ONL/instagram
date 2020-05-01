@@ -33,7 +33,7 @@ public class LikeService {
 
     if (likeOptional.isPresent()) {
       likesRepository.delete(likeOptional.get());
-      return Long.parseLong("-1");
+      return postId;
     }
     Likes likes = Likes.builder().post(post).user(user).build();
     likes.addToPostAndUser(user, post);
