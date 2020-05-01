@@ -36,7 +36,7 @@ public class PostListResponseDto {
     this.user = new UserResponseDto(entity.getUser());
     this.createdDate = entity.getCreatedDate();
     this.modifiedDate = entity.getModifiedDate();
-
+    this.isLiked = false;
   }
 
   public void checkLiked(Optional<Likes> likes) {
