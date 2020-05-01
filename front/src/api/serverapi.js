@@ -41,7 +41,7 @@ class serverapi {
             },
             body: data
         }).catch(console.error)
-        .then(response => console.log(response.json()));
+        .then(response => response.json());
     }
     static createComment({authorization, postId, comment}){
         return fetch(amazonurl + '/api/v1/comments', {
@@ -56,6 +56,15 @@ class serverapi {
             })
         })
             .then((response)=>response.json());
+    }
+    static toggleLikeButton({authorization, postId}){
+        return fetch(amazonurl + `/api/v1/likes/${postId}`, {
+            method: 'GET',
+            headers:{
+                authorization
+            },
+        })
+            .then(response => response.json());
     }
     static updateArticle() {
     }

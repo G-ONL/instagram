@@ -4,7 +4,7 @@ import PostPresenter from "./PostPresenter";
 import { connect } from 'react-redux';
 import serverapi from '../../api/serverapi'
 import { CREATE_COMMENT_SUCCESS } from '../../actions/actionTypes';
-import {createCommentAndDispatchPost} from '../../actions/loadActions';
+import {createCommentAndDispatchPost, toggleLikeButton} from '../../actions/loadActions';
 
 class PostContainer extends React.Component {
   render() {
@@ -19,22 +19,6 @@ class PostContainer extends React.Component {
       caption
     } = this.props;
 
-    this.state = {
-      isLikedS: isLiked,
-      likeCountS: likeCount
-    };
-    const setIsLiked = (isLikedS) => { this.state.isLikedS = isLikedS; };
-    const setLikeCount = (likeCountS) => { this.state.likeCountS = likeCountS; };
-    const comment = "";
-    const toggleLike = () => {
-      if (this.state.isLikedS === true) {
-        setIsLiked(false);
-        setLikeCount(this.state.likeCountS - 1);
-      } else {
-        setIsLiked(true);
-        setLikeCount(this.state.likeCountS + 1);
-      }
-    };
     const onKeyPress = async event => {
       const { which } = event;
       if (which === 13) {
@@ -44,19 +28,21 @@ class PostContainer extends React.Component {
         }
       }
     };
-    console.log("postcontainer rendered");
     return (
       <PostPresenter
         user={user}
         postPictures={postPictures}
-        likeCount={this.state.likeCountS}
+        likeCount={likeCount}
         caption={caption}
-        isLiked={this.state.isLikedS}
+        isLiked={isLiked}
         comments={comments}
         createdDate={createdDate}
-        setIsLiked={setIsLiked}
-        setLikeCount={setLikeCount}
-        toggleLike={toggleLike}
+        toggleLike={()=>{
+          this.props.toggleLikeButton({
+            authorization: this.props.authorization,
+            postId: id,
+          });
+        }}
         onKeyPress={onKeyPress}
         sendComment={(comment) => {
           this.props.sendComment({
@@ -105,6 +91,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   sendComment: ({authorization, postId, comment}) => {
     createCommentAndDispatchPost({ authorization, dispatch, postId, comment });
+  },
+  toggleLikeButton: ({ authorization, postId }) => {
+    toggleLikeButton({ authorization, dispatch, postId });
   }
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PostContainer);

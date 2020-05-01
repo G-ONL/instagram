@@ -19,10 +19,6 @@ const Bigbox = styled.div`
     flex-direction: column;
     justify-content: left;
     align-items: center;
-    label{
-        width: 100%;
-        height: 500px;
-    }
     input[type="file"]{
         position: absolute; 
         width: 1px; 
@@ -57,8 +53,39 @@ const CaptionInput = styled.div`
 
     }
 `;
+const ImageWhenNotUploaded = styled.div`
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    label{
+        width: 100%;
+        height: 100%;
+        background-position: center center;
+        background-size: cover;
+
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 100px
+    }
+
+    i{
+        cursor: pointer;
+    }
+`;
 
 class upload extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            imageNotYetRegistered: true,
+            registeredImageUrl: null
+        };
+    }
     render() {
         let inputRef = new InputRef();
         let sendData = () => {
@@ -70,8 +97,16 @@ class upload extends React.Component {
             data.append('file', input.files[0]);
             data.append('caption', caption);
             // 보내기
-            serverapi.createPost(this.props.authorization, data);
-            // 초기화
+            // 성공시, 초기화
+            serverapi.createPost(this.props.authorization, data)
+                .then(response => {
+                    if (response.message == 'Success') {
+                        this.setState({
+                            imageNotYetRegistered: true,
+                            registeredImageUrl: null
+                        });
+                    }
+                });
         };
         let onFileChange = () => {
             let uploadedFile = document.querySelector('input[type="file"]').files[0];
@@ -79,16 +114,36 @@ class upload extends React.Component {
                 return;
             }
 
+            this.setState({
+                imageNotYetRegistered: false,
+                registeredImageUrl: uploadedFile
+            });
+        };
+
+
+        const { imageNotYetRegistered, registeredImageUrl } = this.state;
+        if (imageNotYetRegistered) {
+            // 올려주세요 띄우기
+            if(document.querySelector('label'))
+                document.querySelector('label').style.backgroundImage = `url()`
+        } else {
+            // 등록된 이미지 띄우기
+            let uploadedFile = document.querySelector('input[type="file"]').files[0];
             const fileReader = new FileReader();
             fileReader.onload = () => {
                 document.querySelector('label').style.backgroundImage = `url(${fileReader.result})`;
             };
             fileReader.readAsDataURL(uploadedFile);
-        };
+        }
+
         return (
             <Background>
                 <Bigbox>
-                    <label for="imageUpload"></label>
+                    <ImageWhenNotUploaded>
+                    <label for="imageUpload">
+                        { imageNotYetRegistered ? <i class="far fa-image"></i> : null}
+                    </label>
+                    </ImageWhenNotUploaded>
                     <input type="file" id="imageUpload" onChange={onFileChange}></input>
                     <CaptionInput>
                         <span>Caption: </span>

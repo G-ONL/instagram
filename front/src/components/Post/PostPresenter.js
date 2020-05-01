@@ -125,8 +125,8 @@ class PostPresenter extends React.Component{
       isLiked, // no
       likeCount,
       createdDate,
-      toggleLike, //
-      onKeyPress, //
+      toggleLike,
+      onKeyPress,
       comments,
       caption,
       sendComment

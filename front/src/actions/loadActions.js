@@ -53,7 +53,14 @@ export const createCommentAndDispatchPost = ({dispatch, authorization, postId, c
             }
         })
 };
-
+export const toggleLikeButton = ({ dispatch, authorization, postId }) => {
+    return serverapi.toggleLikeButton({authorization, postId})
+        .then((response)=>{
+            if(response.message == 'Success'){
+                tryGetPostsAndDispatch_API(dispatch, authorization);
+            }
+        })
+};
 function getAddedNumber(data){
     return data.a + data.b;
 }
