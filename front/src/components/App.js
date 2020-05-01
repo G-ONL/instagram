@@ -38,8 +38,8 @@ class App extends React.Component {
                     <Route exact path="/upload" component={upload} />
                     <Route path="*" component={Feed} />
                   </Switch>
-                </Wrapper>
                 <Footer />
+                </Wrapper>
               </>
             </Router>
           </>
