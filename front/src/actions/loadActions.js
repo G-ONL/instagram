@@ -49,18 +49,10 @@ export const createCommentAndDispatchPost = ({dispatch, authorization, postId, c
     serverapi.createComment({authorization, postId, comment})
         .then(response => {
             if(response.message == 'Success'){
-                serverapi.getPost({authorization, postId})
-                    .then(response=>{
-                        if(response.message == 'Success'){
-                            dispatch({
-                                type:types.LOAD_GETPOST_SUCCESS,
-                                data:response.data
-                            });
-                        }
-                    })
+                tryGetPostsAndDispatch_API(dispatch, authorization);
             }
         })
-}
+};
 
 function getAddedNumber(data){
     return data.a + data.b;

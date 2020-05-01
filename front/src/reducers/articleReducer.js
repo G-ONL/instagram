@@ -6,7 +6,6 @@ let initialState = {
   response: ""
 };
 
-
 export default function articleReducer(state = initialState, action) {
   switch(action.type) {
     case types.LOAD_GETPOST_SUCCESS:{
@@ -15,8 +14,8 @@ export default function articleReducer(state = initialState, action) {
       // 내 posts안에 그 id랑 같은놈을 찾는다.
       // 갈아 끼운다.
       const newState = produce(state, newnewState => {
-        const foundPostIndex = newnewState.posts.findIndex(post=>post.id == action.data[0].id);
-        newnewState.posts[foundPostIndex] = action.data[0];
+        const foundPostIndex = newnewState.posts.findIndex(post=>post.id == action.data.id);
+        newnewState.posts[foundPostIndex] = action.data;
       });
       return newState;
     }
