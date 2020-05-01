@@ -4,8 +4,6 @@ import com.example.instagram.common.BaseTimeEntity;
 import com.example.instagram.domain.comment.Comment;
 import com.example.instagram.domain.like.Likes;
 import com.example.instagram.domain.post.Post;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;

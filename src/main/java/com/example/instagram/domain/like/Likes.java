@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -22,10 +23,29 @@ public class Likes extends BaseTimeEntity {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name="USER_ID")
+  @JoinColumn(name = "USER_ID")
   private User user;
 
   @ManyToOne
-  @JoinColumn(name="POST_ID")
+  @JoinColumn(name = "POST_ID")
   private Post post;
+
+
+  @Builder
+  public Likes(User user, Post post) {
+    this.user = user;
+    this.post = post;
+  }
+
+  public void addToPostAndUser(User user, Post post) {
+    this.user = user;
+    this.post = post;
+    if (!post.getLikes().contains(this)) {
+      post.getLikes().add(this);
+    }
+    if (!user.getLikes().contains(this)) {
+      user.getLikes().add(this);
+    }
+  }
+
 }
