@@ -47,8 +47,10 @@ public class PostController {
       @ApiImplicitParam(name = "id", value = "게시글 id", required = true, dataType = "string", paramType = "path", defaultValue = "1")
   })
   @GetMapping("/api/v1/posts/{id}")
-  public ResponseEntity<ResponseDataDto> find(@PathVariable Long id) {
-    return ResponseEntity.ok(new ResponseDataDto(HttpStatus.OK.value(), postService.find(id)));
+  public ResponseEntity<ResponseDataDto> find(@PathVariable Long id, HttpServletRequest request) {
+    Long userId = Long.valueOf(String.valueOf(request.getAttribute(CommonConstant.USER_ID)));
+    return ResponseEntity
+        .ok(new ResponseDataDto(HttpStatus.OK.value(), postService.find(id, userId)));
   }
 
   @ApiOperation(value = "게시글 작성")
@@ -78,8 +80,10 @@ public class PostController {
   }
 
   @GetMapping("/api/v1/posts")
-  public ResponseEntity<ResponseListDataDto> find() {
+  public ResponseEntity<ResponseListDataDto> find(HttpServletRequest request) {
+    Long userId = Long.valueOf(String.valueOf(request.getAttribute(CommonConstant.USER_ID)));
     log.debug("========== Get : /api/v1/posts 호출");
-    return ResponseEntity.ok(new ResponseListDataDto(HttpStatus.OK.value(), postService.findAll()));
+    return ResponseEntity
+        .ok(new ResponseListDataDto(HttpStatus.OK.value(), postService.findAll(userId)));
   }
 }
