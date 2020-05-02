@@ -20,9 +20,7 @@ class Feed extends React.Component {
     }
 
     render() {
-        console.log("feed rendered");
         let { posts } = this.props;
-        console.log(posts);
         return (
             <Wrapper>
                 {

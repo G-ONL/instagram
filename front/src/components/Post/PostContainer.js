@@ -28,9 +28,10 @@ class PostContainer extends React.Component {
         }
       }
     };
+    const tempUser = {...user, location: 'Seoul Korea'};
     return (
       <PostPresenter
-        user={user}
+        user={tempUser}
         postPictures={postPictures}
         likeCount={likeCount}
         caption={caption}
@@ -43,7 +44,6 @@ class PostContainer extends React.Component {
             postId: id,
           });
         }}
-        onKeyPress={onKeyPress}
         sendComment={(comment) => {
           this.props.sendComment({
             authorization: this.props.authorization,

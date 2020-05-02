@@ -32,6 +32,7 @@ const Location = styled.span`
   display: block;
   margin-top: 5px;
   font-size: 12px;
+  opacity: 0.8;
 `;
 
 const Pictures = styled.div`
@@ -116,6 +117,8 @@ const Picture = styled.div`
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
+  border-top: ${props => props.theme.boxBorder};
+  border-bottom: ${props => props.theme.boxBorder};
 `;
 class PostPresenter extends React.Component{
   render(){
@@ -126,14 +129,13 @@ class PostPresenter extends React.Component{
       likeCount,
       createdDate,
       toggleLike,
-      onKeyPress,
       comments,
       caption,
       sendComment
     } = this.props;
     
     let inputRef = new InputRef();
-    const onclick = () => {
+    const getCommentAndSend = () => {
       const { comment } = inputRef.getInput("comment");
       if(comment == undefined || comment == '' || comment == null)
         return;
@@ -168,27 +170,29 @@ class PostPresenter extends React.Component{
             <Comments>
               {comments.map((comment) => (
                 <Comment key={comment.id}>
-                  <FatText text={"user "} />
+                  <FatText text={comment.userName} />
                   {comment.comment}
                 </Comment>
               ))}
-              {/* {selfComments.map(comment => (
-                <Comment >
-                  <FatText text={"user "} />
-                  {comment}
-                </Comment>
-              ))} */undefined}
             </Comments>
           )}
           <Timestamp>{createdDate}</Timestamp>
           <Textarea
             type="text"
-            onKeyPress={onKeyPress}
+            onKeyPress={async (event) => {
+              const {which} = event;
+              if (which === 13) {
+                event.preventDefault();
+                try {
+                  getCommentAndSend();
+                } catch {
+                }
+              }
+            }}
             ref={inputRef.getRef()}
             name="comment"
             placeholder={"Add a comment..."}
           />
-          <button onClick={onclick}>send</button>
         </Meta>
       </Post>
     );

@@ -34,7 +34,8 @@ const Bigbox = styled.div`
         width: 30%;
         height: 30px;
         border: ${props => props.theme.boxBorder};
-        margin-bottom: 5px;
+        margin-top: 10px;
+        margin-bottom: 20px;
     }
 `;
 const CaptionInput = styled.div`
@@ -70,11 +71,11 @@ const ImageWhenNotUploaded = styled.div`
         display:flex;
         justify-content: center;
         align-items: center;
-        font-size: 100px
     }
 
     i{
         cursor: pointer;
+        font-size: 70px;
     }
 `;
 

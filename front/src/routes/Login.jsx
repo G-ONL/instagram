@@ -7,13 +7,12 @@ import { Link } from 'react-router-dom';
 import { tryLoginAndDispatch } from '../actions/loadActions';
 
 const Wrapper = styled.div`
-        min-height: 80vh;
         display: flex;
         align-items: center;
+        justify-content: center;
         flex-direction: column;
     `;
 const Box = styled.div`
-    margin-top: 150px;
     display: flex;
     flex-direction: column;
     justify-content: left;

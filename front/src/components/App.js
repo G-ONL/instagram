@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import Login from "../routes/Login";
 import Signup from "../routes/signup";
 import upload from "../routes/upload";
+import profile from "../routes/profile";
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -36,6 +37,7 @@ class App extends React.Component {
                   <Switch>
                     <Route exact path="/" component={Feed} />
                     <Route exact path="/upload" component={upload} />
+                    <Route exact path="/profile/:userName" component={profile} />
                     <Route path="*" component={Feed} />
                   </Switch>
                 <Footer />

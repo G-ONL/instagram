@@ -24,9 +24,19 @@ const Container = styled.div`
   border-radius:50%;
 `;
 
-const Avatar = ({ size = "sm", url, className }) => (
-  <Container className={className} size={size} url={url} />
-);
+const NoImageContainer = styled.div`
+  ${props => getSize(props.size)}
+  background-image:url(${props => props.url});
+  background-color: blue;
+  border-radius:50%;
+`;
+
+const Avatar = ({ size = "sm", url, className }) => {
+  if (url == undefined){
+    return <NoImageContainer className={className} size={size} url="https://lh3.googleusercontent.com/proxy/hBrfUy2AWbAz8bq9j_hopEKUHkSEcRj3ggtPBdGd9wQDJHg31M1Tj7T9pFZ01mgGvVz8hDKIJqB_HiFSDLomkRAm5Yxi13exavkjwPxLsbcGzBR-WJ3hVpetBja9fNzKa1KdOKV0bLWfND4FuaLpztEwUdjn-i2y1gpHmLu_lA"/>;
+  }
+  return <Container className={className} size={size} url={url} />;
+};
 
 Avatar.propTypes = {
   size: PropTypes.oneOf(["sm", "md", "lg"]),
